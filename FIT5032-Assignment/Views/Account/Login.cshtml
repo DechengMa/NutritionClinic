@@ -1,0 +1,74 @@
+﻿@using FIT5032_Assignment.Models
+@model LoginViewModel
+
+@* @Html.Partial("_Navbar") *@
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="~/Content/LoginCss.css" rel="stylesheet" />
+
+<section class="login-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 login-sec">
+                <h2 class="text-center">Login Now</h2>
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {@*<form class="login-form">*@
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @*<label for="exampleInputEmail1" class="text-uppercase">Username</label>*@
+                    @*<input type="text" class="form-control" placeholder="">*@
+                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+                    <div class="form-group">
+                        @*<label for="exampleInputPassword1" class="text-uppercase">Password</label>*@
+                        @*<input type="password" class="form-control" placeholder="">*@
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                @Html.ValidationSummary(true,"",new {@class = "text-danger"})
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
+                    </div>
+                </div>
+                @*<div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input">
+                            <small>Remember Me</small>
+                        </label>
+                        <button type="submit" class="btn btn-login float-right">Submit</button>
+                    </div>*@
+                <button type="submit" class="btn btn-login float-right">Submit</button>
+                @*</form>*@
+            }
+
+
+                <div class="copy-text">Don't have a account? <i class="fa fa-heart"></i> <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink"})</li></div>
+            </div>
+            <div class="col-md-8 banner-sec">
+                @* <div class="carousel-inner" role="listbox"> *@
+                @* <div class="carousel-item active"> *@
+                @* <img class="d-block img-fluid" src="http://southeastnutrition.com/wp-content/themes/stark-child/images/slide1.jpg" alt="First slide"> *@
+                <div class="carousel-caption d-none d-md-block">
+                    <div class="banner-text">
+                        <h2>Caulfield Nutrition Clinic</h2>
+                        <p>Caulfield Nutrition Clinic is a professional clinic for people who want to gain long time health advice.</p>
+                    </div>
+                </div>
+                @*     </div> *@
+                @* </div> *@
+            </div>
+        </div>
+    </div>
+
+</section>

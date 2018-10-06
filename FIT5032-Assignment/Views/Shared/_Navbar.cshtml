@@ -1,0 +1,24 @@
+﻿
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #DE6262;" >
+    @Html.ActionLink("Caulfield Nutrition Clinic", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                @Html.ActionLink("Home", "Index", "Home", new { area = " " }, new { @class = "nav-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Calendar", "Calendar", "Account", new { area = " " }, new { @class = "nav-link" })
+            </li>
+            <li class="nav-item dropdown">
+                @Html.ActionLink("Booking", "Booking", "Account", new { area = " " }, new { @class = "nav-link" })
+            </li>
+        </ul>
+            @Html.Partial("_LoginPartial")
+            
+    </div>
+</nav>

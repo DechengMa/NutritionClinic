@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIT5032-Assignment", "FIT5032-Assignment\FIT5032-Assignment.csproj", "{2636A28C-E38F-470D-8F19-1751C4E8175A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIT5032-Assignment.Tests", "FIT5032-Assignment.Tests\FIT5032-Assignment.Tests.csproj", "{BFF73412-7DEE-478F-99DA-F1C726DF62EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2636A28C-E38F-470D-8F19-1751C4E8175A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2636A28C-E38F-470D-8F19-1751C4E8175A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2636A28C-E38F-470D-8F19-1751C4E8175A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2636A28C-E38F-470D-8F19-1751C4E8175A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF73412-7DEE-478F-99DA-F1C726DF62EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF73412-7DEE-478F-99DA-F1C726DF62EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF73412-7DEE-478F-99DA-F1C726DF62EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF73412-7DEE-478F-99DA-F1C726DF62EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD35AA70-AA8D-4FC1-91EC-1D29C1E8A414}
+	EndGlobalSection
+EndGlobal
