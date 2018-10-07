@@ -1,0 +1,34 @@
+﻿@model FIT5032_Assignment.ViewModels.PostingViewModel
+@{
+    ViewBag.Title = "Posting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Posting</h2>
+
+@using (Html.BeginForm("Posting", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title)
+        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CustomerId)
+        @Html.DropDownListFor(m => m.CustomerId, new SelectList(Model.ApplicationUser, "Id", "FirstName"), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CustomerId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Contents)
+        @Html.TextAreaFor(m => m.Contents, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Contents, "", new { @class = "text-danger" })
+    </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <!-- Submit button -->
+        <button class="btn btn-primary " name="submit" type="submit">Submit</button>
+    </div>
+}

@@ -14,6 +14,8 @@ using Microsoft.Owin.Security;
 using FIT5032_Assignment.Models;
 using FIT5032_Assignment.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace FIT5032_Assignment.Controllers
 {
@@ -203,7 +205,6 @@ namespace FIT5032_Assignment.Controllers
 //                        var customer = new Customer { ApplicationUserId = user.Id };
 //                        _context.Customers.Add(customer);
 //                        SaveChanges(_context);
-
                     }
                     else
                     {
@@ -214,13 +215,10 @@ namespace FIT5032_Assignment.Controllers
 
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         
-//                        var nutritionist = new Nutritionist() { ApplicationUserId = user.Id };
-//                        _context.Nutritionists.Add(nutritionist);
-//                        SaveChanges(_context);
 
                     }
-                    
-                    
+
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -234,6 +232,20 @@ namespace FIT5032_Assignment.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+
+        static async Task Execute()
+        {
+            var apiKey = Environment.GetEnvironmentVariable("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");
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("test@example.com", "Example User");
+            var subject = "Sending with SendGrid is Fun";
+            var to = new EmailAddress("chinadecheng@gmail.com", "Example User");
+            var plainTextContent = "and easy to do anywhere, even with C#";
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
 
         //
@@ -564,6 +576,17 @@ namespace FIT5032_Assignment.Controllers
 
         }
 
+        [Authorize(Roles = "Nutritionist")]
+        public ActionResult Posting()
+        {
+            var CustomerName = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("1")).ToList();
+            PostingViewModel postingViewModel = new PostingViewModel()
+            {
+                ApplicationUser = CustomerName
+            };
+            return View(postingViewModel);
+        }
+
         [Authorize(Roles = "Customer")]
         public ActionResult Booking()
         {
@@ -579,6 +602,30 @@ namespace FIT5032_Assignment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public ActionResult Posting([Bind(Include = "Title,CustomerId,Contents")] PostingViewModel postingViewModel)
+        {
+            var CutomerName = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("1")).ToList();
+            postingViewModel.ApplicationUser = CutomerName;
+            if (ModelState.IsValid)
+            {
+                PostingModel postingModel = new PostingModel()
+                {
+                    Title = postingViewModel.Title,
+                    NutritionistId = User.Identity.GetUserId(),
+                    CustomerId = postingViewModel.CustomerId,
+                    PostTime = DateTime.Now,
+                    Content = postingViewModel.Contents
+
+                };
+                _context.PostingModels.Add(postingModel);
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            return View(postingViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Booking([Bind(Include = "Title,NutritionistId,DateAndTime,Duration,Remarks")] BookingViewModel bookingViewModel)
         {
             var NutritionistName = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("2")).ToList();
@@ -586,7 +633,6 @@ namespace FIT5032_Assignment.Controllers
             if (ModelState.IsValid)
             {
                 //Get Record of the target nutritionist to avoid conflict
-
                 var bookingmodel =
                     _context.BookingModels.Where(x => x.NutritionistId == bookingViewModel.NutritionistId).ToList();
                 foreach (var booking in bookingmodel)
@@ -609,14 +655,9 @@ namespace FIT5032_Assignment.Controllers
                 };
                 _context.BookingModels.Add(bookingModel);
                 _context.SaveChanges();
+                Execute();
                 return RedirectToAction("Calendar", "Account");
             }
-            
-//            var NutritionistName = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("2")).ToList();
-//            BookingViewModel bookingViewModel1 = new BookingViewModel
-//            {
-//                ApplicationUser = NutritionistName
-//            };
 
             return View(bookingViewModel);
         }

@@ -1,16 +1,17 @@
 ﻿@*Cite from http://www.dotnetawesome.com/2017/06/event-calendar-in-aspnet-mvc.html *@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css" rel="stylesheet" media="print" />
-
-
+@* <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> *@
+@* <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css" rel="stylesheet" media="print" /> *@
+@* <link href="~/Content/bootstrap.min.css" rel="stylesheet" /> *@
 <div id="calender"></div>
+@* <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> *@
 
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <p id="pDetails"></p>
@@ -25,16 +26,18 @@
 @section Scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-
+    @* <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script> *@
+    @* <link href="~/Content/bootstrap.css" rel="stylesheet" /> *@
+    @* <link href="~/Content/bootstrap.min.css" rel="stylesheet" /> *@
     <script>
         $(document).ready(function () {
             var events = [];
             $.ajax({
                 type: "GET",
                 url: "/Account/GetEvents",
-                success: function(data) {
+                success: function (data) {
                     $.each(data,
-                        function(i, v) {
+                        function (i, v) {
                             events.push({
                                 title: v.Title,
                                 description: v.Remarks,
@@ -44,7 +47,7 @@
                         })
                     GenerateCalender(events);
                 },
-                error: function(error) {
+                error: function (error) {
                     alert('failed');
                 }
             })
@@ -61,7 +64,7 @@
                         right: 'month,basicWeek,basicDay,agenda'
                     },
                     eventLimit: true,
-                    eventColor: '#062e80',
+                    eventColor: "#F76D5D",
                     events: events,
                     eventClick: function (calEvent, jsEvent, view) {
                         $('#myModal #eventTitle').text(calEvent.title);
@@ -72,11 +75,13 @@
                         }
                         $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
                         $('#myModal #pDetails').empty().html($description);
-
+                        console.log("Test");
+                        //                        $.noConflict();
                         $('#myModal').modal();
                     }
                 });
             }
         })
+        
     </script>
 }

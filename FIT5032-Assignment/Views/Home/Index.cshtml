@@ -1,5 +1,9 @@
-﻿@using FIT5032_Assignment.Models
+﻿@using System.Security.Cryptography
+@using FIT5032_Assignment.Models
+@using FIT5032_Assignment.ViewModels
 @using Microsoft.AspNet.Identity;
+@model FIT5032_Assignment.ViewModels.HomeIndexViewModel
+
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -9,80 +13,93 @@
     ViewBag.Title = "Home Page";
 }
 
-
 @{var manager = new UserManager<ApplicationUser>(new Microsoft.AspNet.Identity.EntityFramework.UserStore<ApplicationUser>(new ApplicationDbContext()));
     var currentUser = manager.FindById(User.Identity.GetUserId()); }
 
 @if (Request.IsAuthenticated)
 {
-    @*     if (currentUser.FirstName != null) *@
-    @*     { *@
-    @*         <h2>Hello @currentUser.FirstName</h2> *@
-    @*         <h3>Your are a @currentUser.UserType</h3> *@
-    @*     } *@
-    @*     else *@
-    @*     { *@
-    @*         <h1>Hello @User.Identity.GetUserName() </h1> *@
-    @*     } *@
-
     <!-- Page Content -->
     <div class="container">
-
         <div class="row">
-
             <!-- Blog Entries Column -->
             <div class="col-md-8">
 
+                @if(@currentUser.FirstName != null)
+                {
                 <h1 class="my-4">
-                    Page Heading
-                    <small>Secondary Text</small>
+                    Hello
+                    <small> @currentUser.FirstName !</small>
                 </h1>
 
-                <!-- Blog Post -->
-                <div class="card mb-4">
-                    @* <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> *@
-                    <div class="card-body">
-                        <h2 class="card-title">Post Title</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                        @* <a href="#" class="btn btn-primary">Read More &rarr;</a> *@
-                        @Html.ActionLink("Read More", "PostDetail","Home", new { area = " ",@class= "btn btn-primary" })
+                }else{
+                <h1 class="my-4">
+                    Hello
+                    <small> @User.Identity.GetUserName() !</small>
+                </h1>
+                }
+                @if(User.IsInRole("Nutritionist")){
 
-                    </div>
-                    <div class="card-footer text-muted">
-                        Posted on January 1, 2017 by
-                        <a href="#">Start Bootstrap</a>
-                    </div>
-                </div>
+                    <h4>Here are your next reservation:</h4> 
+                    foreach (var booking in Model.BookingModel)
+                     {
+                         <!-- Blog Post -->
+                         <div class="card mb-4">
+                             @* <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> *@
+                             <div class="card-body">
+                                 <h2 class="card-title">@booking.Title</h2>
+                                 <p class="card-text">@booking.Remarks</p>
+                                 @* <a href="#" class="btn btn-primary">Read More &rarr;</a> *@
+                                 @Html.ActionLink("Read More", "PostDetail", "Home", new { area = " ", @class = "btn btn-primary" })
 
-                <!-- Blog Post -->
-                <div class="card mb-4">
-                    @* <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> *@
-                    <div class="card-body">
-                        <h2 class="card-title">Post Title</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                        @* <a href="#" class="btn btn-primary">Read More &rarr;</a> *@
-                        @Html.ActionLink("Read More", "PostDetail", "Home", new { area = " ", @class = "btn btn-primary" })
-                    </div>
-                    <div class="card-footer text-muted">
-                        Posted on January 1, 2017 by
-                        <a href="#">Start Bootstrap</a>
-                    </div>
-                </div>
+                             </div>
+                             <div class="card-footer text-muted">
+                                 @booking.StartTime
+                                 <a href="#">@booking.CustomerId</a>
+                             </div>
+                         </div>
+                     }
+                }
+                else
+                {
+                 <h4>Here are some posts from your personal nutritionist:</h4> 
+                    foreach (var posting in Model.PostingModel)
+                     {
+                         <!-- Blog Post -->
+                         <div class="card mb-4">
+                             @* <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> *@
+                             <div class="card-body">
+                                 <h2 class="card-title">@posting.Title</h2>
+                                 <p class="card-text">@posting.Content</p>
+                                 @* <a href="#" class="btn btn-primary">Read More &rarr;</a> *@
+                                 @Html.ActionLink("Read More", "PostDetail", "Home", new { area = " ", @class = "btn btn-primary" })
 
-                <!-- Blog Post -->
-                <div class="card mb-4">
-                    @* <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> *@
-                    <div class="card-body">
-                        <h2 class="card-title">Post Title</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                        @* <a href="#" class="btn btn-primary">Read More &rarr;</a> *@
-                        @Html.ActionLink("Read More", "PostDetail", "Home", new { area = " ", @class = "btn btn-primary" })
-                    </div>
-                    <div class="card-footer text-muted">
-                        Posted on January 1, 2017 by
-                        <a href="#">Start Bootstrap</a>
-                    </div>
-                </div>
+                             </div>
+                             <div class="card-footer text-muted">
+                                 @posting.PostTime
+                                 <a href="#">@posting.NutritionistId</a>
+                             </div>
+                         </div>
+                     }
+                }
+                
+               
+                @* <!-- Blog Post --> *@
+                @* <div class="card mb-4"> *@
+                @*     $1$ <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> #1# *@
+                @*     <div class="card-body"> *@
+                @*         <h2 class="card-title"></h2> *@
+                @*         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p> *@
+                @*         $1$ <a href="#" class="btn btn-primary">Read More &rarr;</a> #1# *@
+                @*         @Html.ActionLink("Read More", "PostDetail", "Home", new { area = " ", @class = "btn btn-primary" }) *@
+                @* *@
+                @*     </div> *@
+                @*     <div class="card-footer text-muted"> *@
+                @*         Posted on January 1, 2017 by *@
+                @*         <a href="#">Start Bootstrap</a> *@
+                @*     </div> *@
+                @* </div> *@
+
+               
 
                 <!-- Pagination -->
                 <ul class="pagination justify-content-center mb-4">

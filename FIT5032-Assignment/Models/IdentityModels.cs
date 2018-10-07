@@ -42,7 +42,7 @@ namespace FIT5032_Assignment.Models
         }
 
         public System.Data.Entity.DbSet<FIT5032_Assignment.Models.BookingModel> BookingModels { get; set; }
-
+        public System.Data.Entity.DbSet<FIT5032_Assignment.Models.PostingModel> PostingModels { get; set; }
         //        public System.Data.Entity.DbSet<FIT5032_Assignment.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

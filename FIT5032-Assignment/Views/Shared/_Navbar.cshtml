@@ -7,18 +7,37 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarColor01">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                @Html.ActionLink("Home", "Index", "Home", new { area = " " }, new { @class = "nav-link" })
-            </li>
-            <li class="nav-item">
-                @Html.ActionLink("Calendar", "Calendar", "Account", new { area = " " }, new { @class = "nav-link" })
-            </li>
-            <li class="nav-item dropdown">
-                @Html.ActionLink("Booking", "Booking", "Account", new { area = " " }, new { @class = "nav-link" })
-            </li>
-        </ul>
-            @Html.Partial("_LoginPartial")
-            
+        @if (User.IsInRole("Customer"))
+        {
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    @Html.ActionLink("Home", "Index", "Home", new { area = " " }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Calendar", "Calendar", "Account", new { area = " " }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item dropdown">
+                    @Html.ActionLink("Booking", "Booking", "Account", new { area = " " }, new { @class = "nav-link" })
+                </li>
+            </ul>
+        }
+        else
+        {
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    @Html.ActionLink("Home", "Index", "Home", new { area = " " }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Calendar", "Calendar", "Account", new { area = " " }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item dropdown">
+                    @Html.ActionLink("Posting", "Posting", "Account", new { area = " " }, new { @class = "nav-link" })
+                </li>
+            </ul>
+        }
+
+
+        @Html.Partial("_LoginPartial")
+
     </div>
 </nav>
