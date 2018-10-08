@@ -237,7 +237,7 @@ namespace FIT5032_Assignment.Controllers
 
         static async Task Execute()
         {
-            var apiKey = Environment.GetEnvironmentVariable("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");
+            var apiKey = Environment.GetEnvironmentVariable("APIVarabile");
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("test@example.com", "Example User");
             var subject = "Sending with SendGrid is Fun";
