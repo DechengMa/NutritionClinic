@@ -1,0 +1,154 @@
+﻿@model FIT5032_Assignment.Models.BookingModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+</head>
+<script>
+    $(function () {
+        $.noConflict();
+        $('#datetimepicker1').datetimepicker({
+            useCurrent: false, format: 'DD/MM/YYYY HH:mm:ss',
+            daysOfWeekDisabled: [0, 6],
+            minDate: moment()
+        });
+        $('#datetimepicker2').datetimepicker({
+            useCurrent: false, format: 'DD/MM/YYYY HH:mm:ss',
+            daysOfWeekDisabled: [0, 6],
+            minDate: moment()
+        });
+    });
+</script>
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>BookingModel</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NutritionistId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NutritionistId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.NutritionistId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CustomerId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CustomerId, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2" for="date">Start Time</label>
+        <div class="input-group date" id="datetimepicker1" data-target-input="nearest" style="width: 310px">
+            <div class="col-md-10">
+                @* @Html.EditorFor(model => model.StartTime,  new { @class = "form-control datetimepicker-input" , data_target = "#datetimepicker1"}) *@
+
+                @Html.TextBoxFor(m => m.StartTime, new {@class = "form-control datetimepicker-input", data_target = "#datetimepicker1"})
+            </div>
+            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+        @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2" for="date">End Time</label>
+        <div class="input-group date" id="datetimepicker2" data-target-input="nearest" style="width: 310px">
+            <div class="col-md-10">
+                @* @Html.EditorFor(model => model.StartTime, new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker2" }) *@
+                @Html.TextBoxFor(m => m.EndTime, new {@class = "form-control datetimepicker-input", data_target = "#datetimepicker2" })
+            </div>
+            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+        @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
+    </div>
+
+
+
+    @* <div class="form-group"> *@
+    @*     @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" }) *@
+    @*     <div class="col-md-10"> *@
+    @*         $1$ @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } }) #1# *@
+    @*         @Html.TextBoxFor(m => m.StartTime, " ", new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker1" }) *@
+    @*         <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker"> *@
+    @*             <div class="input-group-text"><i class="fa fa-calendar"></i></div> *@
+    @*         </div> *@
+    @*         @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" }) *@
+    @*     </div> *@
+    @* </div> *@
+
+    @* <div class="form-group"> *@
+    @*     @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" }) *@
+    @*     <div class="col-md-10"> *@
+    @*         $1$ @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } }) #1# *@
+    @*         @Html.TextBoxFor(m => m.EndTime, " ", new { @class = "form-control datetimepicker-input", data_target = "#datetimepicker2" }) *@
+    @*         <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker"> *@
+    @*             <div class="input-group-text"><i class="fa fa-calendar"></i></div> *@
+    @*         </div> *@
+    @*         @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" }) *@
+    @*     </div> *@
+    @* </div> *@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BookingStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @* @Html.EditorFor(model => model.BookingStatus, new { htmlAttributes = new { @class = "form-control" } }) *@
+            @Html.DropDownListFor(model => model.BookingStatus,new List<SelectListItem>
+            {
+                new SelectListItem(){Text = "Pending"},
+                new SelectListItem(){Text = "Approved"},
+                new SelectListItem(){Text = "Disapproved"}
+
+            },new { @class="form-control"})
+            @Html.ValidationMessageFor(model => model.BookingStatus, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

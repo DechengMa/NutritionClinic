@@ -17,7 +17,7 @@ namespace FIT5032_Assignment.ViewModels
         public IEnumerable<ApplicationUser> ApplicationUser { get; set; }
 
         [Required]
-        [Display(Name = "Nutritionist Name")]
+        [Display(Name = "Nutritionist ID")]
         public string NutritionistId { get; set; }
 
 //        [DataType(DataType.Date)]

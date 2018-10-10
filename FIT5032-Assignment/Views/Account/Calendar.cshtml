@@ -30,6 +30,15 @@
     @* <link href="~/Content/bootstrap.css" rel="stylesheet" /> *@
     @* <link href="~/Content/bootstrap.min.css" rel="stylesheet" /> *@
     <script>
+        function giveColor(status) {
+            if (status == "Approved") {
+                return "#71f75d";
+            } else if (status == "Pending") {
+                return "#e5ff00";
+            } else {
+                return "#ff0000";
+            }
+        }
         $(document).ready(function () {
             var events = [];
             $.ajax({
@@ -37,14 +46,15 @@
                 url: "/Account/GetEvents",
                 success: function (data) {
                     $.each(data,
-                        function (i, v) {
+                        function(i, v) {
                             events.push({
                                 title: v.Title,
                                 description: v.Remarks,
                                 start: moment(v.StartTime),
-                                end: v.EndTime != null ? moment(v.EndTime) : null
+                                end: v.EndTime != null ? moment(v.EndTime) : null,
+                                color: giveColor(v.BookingStatus)
                             });
-                        })
+                        });
                     GenerateCalender(events);
                 },
                 error: function (error) {
@@ -64,6 +74,7 @@
                         right: 'month,basicWeek,basicDay,agenda'
                     },
                     eventLimit: true,
+                    
                     eventColor: "#F76D5D",
                     events: events,
                     eventClick: function (calEvent, jsEvent, view) {
@@ -75,13 +86,11 @@
                         }
                         $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
                         $('#myModal #pDetails').empty().html($description);
-                        console.log("Test");
-                        //                        $.noConflict();
                         $('#myModal').modal();
                     }
                 });
             }
         })
-        
+
     </script>
 }

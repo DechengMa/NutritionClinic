@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FIT5032_Assignment.Models;
+using FIT5032_Assignment.Utils;
 using FIT5032_Assignment.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 using SendGrid;
@@ -232,20 +233,6 @@ namespace FIT5032_Assignment.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
-        }
-
-
-        static async Task Execute()
-        {
-            var apiKey = Environment.GetEnvironmentVariable("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");
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("test@example.com", "Example User");
-            var subject = "Sending with SendGrid is Fun";
-            var to = new EmailAddress("chinadecheng@gmail.com", "Example User");
-            var plainTextContent = "and easy to do anywhere, even with C#";
-            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
         }
 
         //
@@ -587,19 +574,6 @@ namespace FIT5032_Assignment.Controllers
             return View(postingViewModel);
         }
 
-        [Authorize(Roles = "Customer")]
-        public ActionResult Booking()
-        {
-//            var NutritionistName = _context.Users.ToList();
-            var NutritionistName = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("2")).ToList();
-            BookingViewModel bookingViewModel = new BookingViewModel
-            {
-                ApplicationUser = NutritionistName
-            };
-
-            return View(bookingViewModel);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Posting([Bind(Include = "Title,CustomerId,Contents")] PostingViewModel postingViewModel)
@@ -615,13 +589,26 @@ namespace FIT5032_Assignment.Controllers
                     CustomerId = postingViewModel.CustomerId,
                     PostTime = DateTime.Now,
                     Content = postingViewModel.Contents
-
+                    
                 };
                 _context.PostingModels.Add(postingModel);
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
             return View(postingViewModel);
+        }
+
+        [Authorize(Roles = "Customer")]
+        public ActionResult Booking()
+        {
+            //            var NutritionistName = _context.Users.ToList();
+            var NutritionistName = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("2")).ToList();
+            BookingViewModel bookingViewModel = new BookingViewModel
+            {
+                ApplicationUser = NutritionistName
+            };
+
+            return View(bookingViewModel);
         }
 
         [HttpPost]
@@ -651,11 +638,28 @@ namespace FIT5032_Assignment.Controllers
                     CustomerId = User.Identity.GetUserId(),
                     StartTime = bookingViewModel.DateAndTime,
                     EndTime = bookingViewModel.DateAndTime.AddHours(bookingViewModel.Duration),
-                    Remarks = bookingViewModel.Remarks
+                    Remarks = bookingViewModel.Remarks,
+                    BookingStatus = "Pending"
                 };
                 _context.BookingModels.Add(bookingModel);
                 _context.SaveChanges();
-                Execute();
+                EmailSender es = new EmailSender();
+                var manager = new UserManager<ApplicationUser>(new Microsoft.AspNet.Identity.EntityFramework.UserStore<ApplicationUser>(new ApplicationDbContext()));
+                var currentUser = manager.FindById(User.Identity.GetUserId());
+                if (currentUser.FirstName != null)
+                {
+                    es.Send(currentUser.Email, "Booking pending", "Hi " + currentUser.FirstName+ ": "+
+                                                                  "<br>Thank you for choosing Cualfield Nutrition Clinic <br>Your reservation is pending, when the administrator approved, you will receive confirm email" +
+                                                                                "<br>Cheers " +
+                                                                                "<br>Caulfield Nutrition Clinic");
+                }
+                else
+                {
+                    es.Send(currentUser.Email,"Booking pending", "Hi Customer: <br>Thank you for choosing Cualfield Nutrition Clinic," +
+                                                                     "<br>Your reservation is pending, when the administrator approved, you will receive confirm email" +
+                                                                                 "<br>Cheers " +
+                                                                                 "<br>Caulfield Nutrition Clinic");
+                }
                 return RedirectToAction("Calendar", "Account");
             }
 

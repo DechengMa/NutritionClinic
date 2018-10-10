@@ -21,7 +21,7 @@
                 </li>
             </ul>
         }
-        else
+        else if (User.IsInRole("Nutritionist"))
         {
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -32,6 +32,20 @@
                 </li>
                 <li class="nav-item dropdown">
                     @Html.ActionLink("Posting", "Posting", "Account", new { area = " " }, new { @class = "nav-link" })
+                </li>
+            </ul>
+        }
+        else
+        {
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    @Html.ActionLink("Home", "Index", "Home", new { area = " " }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("BookingList", "Index", "BookingModels", new { area = " " }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item dropdown">
+                    @Html.ActionLink("PostingList", "Index", "PostingModels", new { area = " " }, new { @class = "nav-link" })
                 </li>
             </ul>
         }

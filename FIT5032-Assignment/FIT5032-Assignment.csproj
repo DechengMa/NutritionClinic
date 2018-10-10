@@ -214,6 +214,7 @@
     <Compile Include="Controllers\BookingModelsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PostingModelsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -241,6 +242,14 @@
     <Compile Include="Migrations\201810071049531_addPostingModel2.Designer.cs">
       <DependentUpon>201810071049531_addPostingModel2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810101058583_addBookingStatus.cs" />
+    <Compile Include="Migrations\201810101058583_addBookingStatus.Designer.cs">
+      <DependentUpon>201810101058583_addBookingStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810101236168_addBookingConstraints.cs" />
+    <Compile Include="Migrations\201810101236168_addBookingConstraints.Designer.cs">
+      <DependentUpon>201810101236168_addBookingConstraints.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BookingModel.cs" />
@@ -249,6 +258,7 @@
     <Compile Include="Models\PostingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\EmailSender.cs" />
     <Compile Include="ViewModels\BookingViewModel.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\HomeIndexViewModel.cs" />
@@ -433,6 +443,16 @@
     <Content Include="Views\Manage\EditProfile.cshtml" />
     <Content Include="Views\Home\PostDetail.cshtml" />
     <Content Include="Views\Account\Posting.cshtml" />
+    <Content Include="Views\PostingModels\Create.cshtml" />
+    <Content Include="Views\PostingModels\Delete.cshtml" />
+    <Content Include="Views\PostingModels\Details.cshtml" />
+    <Content Include="Views\PostingModels\Edit.cshtml" />
+    <Content Include="Views\PostingModels\Index.cshtml" />
+    <Content Include="Views\BookingModels\Create.cshtml" />
+    <Content Include="Views\BookingModels\Delete.cshtml" />
+    <Content Include="Views\BookingModels\Details.cshtml" />
+    <Content Include="Views\BookingModels\Edit.cshtml" />
+    <Content Include="Views\BookingModels\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -449,7 +469,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\BookingModels\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810051206106_addUserInfo.resx">
@@ -469,6 +488,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810071049531_addPostingModel2.resx">
       <DependentUpon>201810071049531_addPostingModel2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810101058583_addBookingStatus.resx">
+      <DependentUpon>201810101058583_addBookingStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810101236168_addBookingConstraints.resx">
+      <DependentUpon>201810101236168_addBookingConstraints.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -16,21 +16,20 @@ namespace FIT5032_Assignment.Controllers
 
         public HomeController()
         {
-            _context = new ApplicationDbContext();
+               _context = new ApplicationDbContext();
         }
+
         public ActionResult Index()
         {
             if (User.IsInRole("Customer"))
             {
                 string userId = User.Identity.GetUserId();
                 var postingModel = _context.PostingModels.Where(x => x.CustomerId == userId);
-//                var postingViewModel = from p in postingModel
-//                    select new PostingViewModel()
-//                    {
-//                        Title = p.Title,
-//                        CustomerId = p.CustomerId,
-//                        Contents = p.Content
-//                    };
+                foreach (var post in postingModel)
+                {
+                    post.CustomerId = getFirstName(post.CustomerId, _context);
+                    post.NutritionistId = getFirstName(post.NutritionistId, _context);
+                }
 
                 HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel()
                 {
@@ -38,17 +37,40 @@ namespace FIT5032_Assignment.Controllers
                 };
                 return View(homeIndexViewModel);
             }
-            else if (User.IsInRole("Nutritionist"))
+            else if(User.IsInRole("Nutritionist"))
             {
                 string userId = User.Identity.GetUserId();
-                var bookingModel = _context.BookingModels.Where(x => x.NutritionistId == userId);
+                var postingModel = _context.PostingModels.Where(x => x.NutritionistId == userId);
+                foreach (var post in postingModel)
+                {
+                    post.CustomerId = getFirstName(post.CustomerId, _context);
+                    post.NutritionistId = getFirstName(post.NutritionistId, _context);
+                }
+
                 HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel()
                 {
-                    BookingModel = bookingModel
+                    PostingModel = postingModel
                 };
                 return View(homeIndexViewModel);
             }
+            else
+            {
+                HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel();
+                View(homeIndexViewModel);
+            }
             return View();
+        }
+
+        public string getFirstName(string id,ApplicationDbContext _context)
+        {
+            string firstName = "UnKnown";
+            var user = _context.Users.Where(x => x.Id == id);
+            foreach (var applicationUser in user)
+            {
+                 firstName = applicationUser.FirstName;
+            }          
+
+            return firstName;
         }
 
         public ActionResult About()
